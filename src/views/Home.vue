@@ -9,6 +9,11 @@
     </ul>
     <input type="text" v-model="newTodo" />
     <button @click="addNewTodo">Add</button>
+
+    <div>
+      <button @click="login">Login</button>
+      {{isLoggedIn}}
+    </div>
   </div>
 </template>
 
@@ -17,7 +22,8 @@
 import HelloWorld from '@/components/HelloWorld.vue'
 import { createNamespacedHelpers } from 'vuex'
 
-const Todos = createNamespacedHelpers('Todos')
+const todosStore = createNamespacedHelpers('todos')
+const authStore = createNamespacedHelpers('auth')
 
 export default {
   name: 'Home',
@@ -37,11 +43,13 @@ export default {
     deleteTodo: function(index) {
       this.todos.splice(index, 1)
     },
-    ...Todos.mapActions(['addTodo']),
-    ...Todos.mapMutations(['resetTodos'])
+    ...todosStore.mapActions(['addTodo']),
+    ...todosStore.mapMutations(['resetTodos']),
+    ...authStore.mapActions(['login'])
   },
   computed: {
-    ...Todos.mapState(['todos'])
+    ...todosStore.mapState(['todos']),
+    ...authStore.mapGetters(['isLoggedIn'])
   }
 }
 </script>
