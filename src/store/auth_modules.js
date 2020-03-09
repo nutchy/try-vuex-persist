@@ -3,18 +3,20 @@ import { doLogin, calculateExpiredAt } from "../utils"
 const defaultState = () => ({
   accessToken: '',
   refreshToken: '',
-  expiresAt: ''
+  expiresAt: '',
+  email: ''
 })
 
 export default {
   namespaced: true,
   state: {...defaultState()},
   actions: {
-    async login({ commit }) {
-      const { accessToken, refreshToken, expiredIn } = await doLogin()
-      const expiresAt = calculateExpiredAt(expiredIn)
-      console.log( { accessToken, refreshToken, expiresAt });
-      commit('setState', { accessToken, refreshToken, expiresAt })
+    async login({ commit }, { email }) {
+      // const { accessToken, refreshToken, expiredIn } = await doLogin()
+      // const expiresAt = calculateExpiredAt(expiredIn)
+      // console.log( { accessToken, refreshToken, expiresAt });
+      // commit('setState', { accessToken, refreshToken, expiresAt })
+      commit('setState', { email })
     }
   },
   mutations: {
@@ -24,6 +26,9 @@ export default {
           state[key] = payload[key]
         }
       }
+    },
+    setEmail(state, payload) {
+      state.email = payload;
     }
   },
   getters: {
